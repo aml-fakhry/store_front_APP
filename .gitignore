@@ -1,0 +1,9 @@
+.node_modules
+/dist
+logs
+*.log
+/logs
+/src/assets/thumb/*.jpg
+.env
+
+node_modules
