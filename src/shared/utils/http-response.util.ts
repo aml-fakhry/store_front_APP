@@ -6,10 +6,10 @@ import { AppHttpResponse } from './../model/app-http-response.model';
 /**
  * Returns a succeeded response with 200 status code.
  * @param res The http-response to be modified.
- * @param filename An file name that will be sent within the response' body.
+ * @param body An optional body that will be sent within the response' body.
  */
-export function OK(res: Response, filename: string): unknown {
-  return filename ? res.status(200).sendFile(appRootDir + filename) : res.send();
+export function OK(res: Response, body?: AppHttpResponse): unknown {
+  return body ? res.status(200).send(body) : res.send();
 }
 
 /**

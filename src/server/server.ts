@@ -1,11 +1,14 @@
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
+import DbService from '../database/database.helper';
 
-// import { imageRelativeRouter, imageRouter } from '../routes';
+import { imageRelativeRouter, testRouter } from '../routes';
 import { Logger } from '../shared';
 import { errorHandler } from './../shared/middleware/error-handler.middleware';
 
 dotenv.config();
+
+export const Database = new DbService();
 
 /**
  * Set request options for an express server.
@@ -25,7 +28,7 @@ function registerRouter(app: Application) {
   const apiBaseRoute = '/api/';
 
   /* Start to register routes */
-  // app.use(apiBaseRoute + imageRelativeRouter, imageRouter);
+  app.use(apiBaseRoute + imageRelativeRouter, testRouter);
 }
 
 /**

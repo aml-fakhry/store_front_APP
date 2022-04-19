@@ -3,8 +3,10 @@
     "driver": "pg",
     "host": "localhost",
     "database": "store_front",
-    "user": "aml_fakhri",
-    "password": "PSQL2233"
+    "user": "postgres",
+    "password": "202111",
+    "port": 5433,
+    "max": 20
   },
   "test": {
     "driver": "pg",

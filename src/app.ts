@@ -9,6 +9,7 @@ export const appRootDir = __dirname;
 /**
  * Setup express server.
  * Start express server after all are done.
+ * And then setup database.
  */
 server.setupServer(app);
 server.startServer(app);
