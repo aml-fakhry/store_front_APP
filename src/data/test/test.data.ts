@@ -1,5 +1,6 @@
 import { Database } from '../../server';
 import { DataResult } from '../../shared';
+// import { testDto } from './test.dto';
 
 export class TestDataAccess {
   /**
@@ -10,7 +11,7 @@ export class TestDataAccess {
     const result: DataResult = {} as DataResult;
     try {
       const query = 'SELECT * FROM test;';
-      result.data = await Database.query(query);
+      result.data = (await Database.query(query)).rows;
     } catch (error) {
       result.error = error;
     }

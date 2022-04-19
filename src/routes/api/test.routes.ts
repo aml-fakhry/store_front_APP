@@ -22,7 +22,7 @@ testRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     } else if (result.validationErrors && result.validationErrors.length) {
       res.status(400).send(result.validationErrors[0].detail);
     } else if (result.data) {
-      OK(res, result.data as never);
+      OK(res, { data: result.data });
     }
   } catch (error) {
     next(error);
