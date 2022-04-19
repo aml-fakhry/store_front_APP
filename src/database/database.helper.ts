@@ -8,17 +8,32 @@ export default class DbService {
   /* The client that connect to db. */
   pool;
   constructor() {
-    const { PSQL_HOST, PSQL_DB, PSQL_USER, PSQL_PASSWORD } = process.env;
+    const { PSQL_HOST, PSQL_DB, PSQL_USER, PSQL_PASSWORD, ENV, PSQL_DB_TEST } = process.env;
 
-    /* Initial clients (pool) to connected to db.*/
-    this.pool = new Pool({
-      host: PSQL_HOST,
-      database: PSQL_DB,
-      user: PSQL_USER,
-      password: PSQL_PASSWORD,
-      port: 5433,
-      max: 20,
-    });
+    /**
+     * just check environment.
+     */
+    if (ENV === 'test') {
+      /* Initial clients (pool) to connected to db at test environment.*/
+      this.pool = new Pool({
+        host: PSQL_HOST,
+        database: PSQL_DB_TEST,
+        user: PSQL_USER,
+        password: PSQL_PASSWORD,
+        port: 5433,
+        max: 20,
+      });
+    } else {
+      /* Initial clients (pool) to connected to db at development environment.*/
+      this.pool = new Pool({
+        host: PSQL_HOST,
+        database: PSQL_DB,
+        user: PSQL_USER,
+        password: PSQL_PASSWORD,
+        port: 5433,
+        max: 20,
+      });
+    }
   }
 
   /**

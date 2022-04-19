@@ -5,11 +5,11 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "start:build": "npm run build && npm run copyAssets && node build/src/app.js",
-    "test": "npm run build && npm run copyAssets && jasmine",
+    "start:build": "npm run build && node build/app.js",
+    "test": "npm run build && jasmine",
+    "test:db": "ENV=test db-migrate --env test up && jasmine && db-migrate db:drop test",
     "build": "rm -rf ./build && npx tsc",
     "watch": "tsc-watch --esModuleInterop src/app.ts --ourDir ./build ",
-    "copyAssets": "cp -R ./src/assets ./build/src/assets",
     "lint": "eslint src --fix",
     "prettier": "prettier --write src/**/*.ts",
     "format": "npm run prettier && npm run lint"
