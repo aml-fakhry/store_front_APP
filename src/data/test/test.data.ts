@@ -10,7 +10,7 @@ export class TestDataAccess {
   static async GetData(): Promise<DataResult> {
     const result: DataResult = {} as DataResult;
     try {
-      const query = 'SELECT * FROM books;';
+      const query = 'SELECT * FROM test;';
       result.data = (await Database.query(query)).rows;
     } catch (error) {
       result.error = error;
