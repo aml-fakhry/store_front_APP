@@ -8,5 +8,9 @@ export enum AppErrorCode {
 
   IncorrectValue = 3,
 
-  InternalServerError = 4,
+  UnAuthenticated = 4,
+
+  Forbidden = 5,
+
+  InternalServerError = 6,
 }
