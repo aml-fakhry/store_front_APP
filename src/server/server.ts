@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import DbService from '../database/database.helper';
 
-import { imageRelativeRouter, testRouter } from '../routes';
+import { userRouter, userRelativeRouter } from '../routes';
 import { Logger } from '../shared';
 import { errorHandler } from './../shared/middleware/error-handler.middleware';
 
@@ -30,7 +30,7 @@ function registerRouter(app: Application) {
   const apiBaseRoute = '/api/';
 
   /* Start to register routes */
-  app.use(apiBaseRoute + imageRelativeRouter, testRouter);
+  app.use(apiBaseRoute + userRelativeRouter, userRouter);
 }
 
 /**

@@ -22,6 +22,15 @@ export function NotFound(res: Response, body?: AppHttpResponse): Response {
 }
 
 /**
+ * Returns a bad request with 400 status code.
+ * @param res The http-response to be modified.
+ * @param body An optional body that will be sent within the response' body.
+ */
+export function BadRequest(res: Response, body?: AppHttpResponse) {
+  return body ? res.status(400).send(body) : res.status(400).send();
+}
+
+/**
  * Returns a unauthenticated user with 401 status code.
  * @param res The http-response to be modified.
  */

@@ -2,9 +2,9 @@ import { AppHttpResponseError } from './app-http-response-error.model';
 /**
  * The data expected returned result.
  */
-export interface DataResult {
+export interface DataResult<T> {
   /* Gets and sets result from operations. */
-  data: {};
+  data: T;
 
   /* Gets or sets validation errors that prevent process complete. */
   validationErrors: AppHttpResponseError[];
