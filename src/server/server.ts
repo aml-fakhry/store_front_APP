@@ -1,3 +1,4 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import DbService from '../database/database.helper';
@@ -15,6 +16,7 @@ export const Database = new DbService();
  * @param app the express application.
  */
 function setRequestOptions(app: Application) {
+  app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 }
