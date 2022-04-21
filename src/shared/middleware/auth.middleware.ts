@@ -7,7 +7,7 @@ import { InternalServerError, JWT, unAuthenticated } from '../utils';
  * @param res The express response.
  * @param next The next function in the pipeline.
  */
-export async function Authenticate(req: Request, res: Response, next: NextFunction) {
+export async function Authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const jwtData = await JWT.verifyAndDecode(req.headers.authorization ?? '');
 
@@ -21,6 +21,8 @@ export async function Authenticate(req: Request, res: Response, next: NextFuncti
       unAuthenticated(res);
     }
   } catch (error) {
+    console.log(error);
+
     InternalServerError(res, error);
   }
 }

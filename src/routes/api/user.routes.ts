@@ -1,10 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { v4 as uuid } from 'uuid';
 
-import { AppError, AppErrorCode, JWT } from '../../shared';
-import { NotFound, OK, unAuthenticated } from '../../shared/utils/http-response.util';
+import { AppError, AppErrorCode, Authenticate, JWT } from '../../shared';
+import { NotFound, OK, unAuthenticated, BadRequest } from '../../shared/utils/http-response.util';
 import { userDataAccess } from './../../data/user/user.data';
-import { BadRequest } from './../../shared/utils/http-response.util';
 
 /* user router to hold all modules route. */
 export const userRouter = express.Router();
@@ -83,7 +82,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
 });
 
 /* Get user route. */
-userRouter.get('/:id', async (req, res, next) => {
+userRouter.get('/:id', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await userDataAccess.findById(parseInt(req.params.id));
 
