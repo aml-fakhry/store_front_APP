@@ -9,7 +9,7 @@ export class JWT {
    * @param id The id of the access token.
    * @param userId The id of the user that owns the access token.
    */
-  static async genToken(id: number, userId: number): Promise<string> {
+  static async genToken(id: string, userId: number): Promise<string> {
     const payload = {
       id,
       userId,
@@ -28,7 +28,7 @@ export class JWT {
   static async verifyAndDecode(
     token: string,
     ignoreExpiration = false
-  ): Promise<{ id: number; userId: number } | null> {
+  ): Promise<{ id: string; iat: number; exp: number; userId: number } | null> {
     try {
       return jwt.verify(token, process.env.JWT_PRIVATE_KEY!, { ignoreExpiration }) as never;
     } catch (error) {

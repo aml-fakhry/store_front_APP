@@ -11,6 +11,6 @@ export enum AppErrorCode {
   UnAuthenticated = 4,
 
   Forbidden = 5,
-
-  InternalServerError = 6,
+  RelatedEntityNotFound = 6,
+  InternalServerError = 7,
 }

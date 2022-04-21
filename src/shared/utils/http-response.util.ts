@@ -26,7 +26,7 @@ export function NotFound(res: Response, body?: AppHttpResponse): Response {
  * @param res The http-response to be modified.
  * @param body An optional body that will be sent within the response' body.
  */
-export function BadRequest(res: Response, body?: AppHttpResponse) {
+export function BadRequest(res: Response, body?: unknown) {
   return body ? res.status(400).send(body) : res.status(400).send();
 }
 
