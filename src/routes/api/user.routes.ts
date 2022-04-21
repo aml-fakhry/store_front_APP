@@ -84,7 +84,6 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
 userRouter.get('/:id', async (req, res, next) => {
   try {
     const result = await userDataAccess.findById(parseInt(req.params.id));
-    console.log({ result });
 
     if (result.error) {
       next(result.error);
