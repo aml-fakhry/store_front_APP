@@ -21,8 +21,6 @@ export async function Authenticate(req: Request, res: Response, next: NextFuncti
       unAuthenticated(res);
     }
   } catch (error) {
-    console.log(error);
-
     InternalServerError(res, error);
   }
 }
