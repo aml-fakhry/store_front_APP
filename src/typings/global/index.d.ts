@@ -5,7 +5,7 @@ declare namespace Express {
      */
     user: {
       userId: number;
-      jwtId: number;
+      jwtId: string;
     };
   }
 }
