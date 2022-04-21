@@ -59,9 +59,11 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
       expiresAt: new Date((jwtData?.exp ?? 0) * 1000),
     });
 
-    console.log({ accessTokenResult });
+    const getsAccessToken = await userDataAccess.findAccessTokenById(parseInt(accessTokenResult?.data.id));
 
-    if (accessTokenResult.validationErrors && accessTokenResult.validationErrors.length) {
+    if (getsAccessToken.error) {
+      next(getsAccessToken.error);
+    } else if (accessTokenResult.validationErrors && accessTokenResult.validationErrors.length) {
       BadRequest(res, { errors: accessTokenResult.validationErrors });
     } else if (accessTokenResult.data) {
       OK(res, {

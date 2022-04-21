@@ -161,10 +161,9 @@ export class userDataAccess {
    */
   static async findAccessTokenById(accessTokenId: number): Promise<DataResult<accessTokenDTO>> {
     const result: DataResult<accessTokenDTO> = {} as DataResult<accessTokenDTO>;
-    console.log({ accessTokenId });
 
     try {
-      result.data = (await Database.query(`SELECT * FROM "accessTokens" where id = $1;`, [accessTokenId])).rows[0];
+      result.data = (await Database.query(`SELECT * FROM accessTokens where id = $1;`, [accessTokenId])).rows[0];
 
       result.isNotFound = !result.data;
     } catch (error) {
