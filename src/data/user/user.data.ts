@@ -1,9 +1,9 @@
 import { DataResult } from './../../shared/model/data-result.model';
 import { Database } from './../../server/server';
-import { userDTO } from './user.dto';
+import { userDTO } from './models/user.dto';
 import { Hash } from '../../shared/utils/hash.util';
 import { AppError, AppErrorCode } from '../../shared';
-import { accessTokenDTO } from './access-token.dto';
+import { accessTokenDTO } from './models/access-token.dto';
 /**
  * the user data-access service it includes all functionalities such create, search, delete and update.
  */
@@ -140,9 +140,9 @@ export class userDataAccess {
       const accessToken = (
         await Database.query(
           `INSERT INTO "accessTokens"
-          ("issuedAt", "expiresAt", "userId")
-          VALUES ($1, $2, $3) RETURNING id;`,
-          [data.issuedAt, data.expiresAt, data.userId]
+          ("id" ,"issuedAt", "expiresAt", "userId")
+          VALUES ($1, $2, $3, $4) RETURNING id;`,
+          [data.id, data.issuedAt, data.expiresAt, data.userId]
         )
       ).rows[0];
 

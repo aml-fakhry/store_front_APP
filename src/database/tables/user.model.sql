@@ -1,4 +1,5 @@
--- Define user model to be create in db.
+-- Table: public.users
+-- DROP TABLE public.users;
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(150),

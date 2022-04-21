@@ -50,6 +50,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     const jwt = await JWT.genToken(uuid(), userResult.data?.id ?? 0);
 
     const jwtData = await JWT.verifyAndDecode(jwt, true);
+    console.log({ lll: jwtData?.id });
 
     const accessTokenResult = await userDataAccess.createAccessToken({
       id: jwtData?.id ?? '',
