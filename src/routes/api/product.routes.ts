@@ -14,7 +14,7 @@ export const productRouter = express.Router();
  */
 export const productRelativeRouter = 'product';
 
-productRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+productRouter.post('', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await productDataAccess.create(req.body);
 
@@ -67,7 +67,7 @@ productRouter.get('/category/:categoryId', async (req: Request, res: Response, n
 });
 
 /* Get all products route. */
-productRouter.get('', async (req: Request, res: Response, next: NextFunction) => {
+productRouter.get('', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await productDataAccess.getAllProducts();
 
