@@ -1,21 +1,21 @@
 import express, { NextFunction, Request, Response } from 'express';
 
-import { Authenticate } from '../../shared';
 import { NotFound, OK, unAuthenticated, BadRequest } from '../../shared/utils/http-response.util';
-import { productDataAccess } from './../../data/product/data/product.data';
+import { orderDataAccess } from './../../data/order/data/order.data';
 
-/* product router to hold all modules route. */
-export const productRouter = express.Router();
+/* order router to hold all modules route. */
+export const orderRouter = express.Router();
 
 /**
- * the relative route for product.
+ * the relative route for order.
  * No need to start with slash '/'.
  */
-export const productRelativeRouter = 'product';
+export const orderRelativeRouter = 'order';
 
-productRouter.post('', async (req: Request, res: Response, next: NextFunction) => {
+/* Create a new order. */
+orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await productDataAccess.create(req.body);
+    const result = await orderDataAccess.create(req.body);
 
     if (result.error) {
       next(result.error);
@@ -31,10 +31,10 @@ productRouter.post('', async (req: Request, res: Response, next: NextFunction) =
   }
 });
 
-/* Get product route by id. */
-productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+/* Get order route by id. */
+orderRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await productDataAccess.findById(parseInt(req.params.id));
+    const result = await orderDataAccess.findById(parseInt(req.params.id));
 
     if (result.error) {
       next(result.error);
@@ -48,10 +48,10 @@ productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction
   }
 });
 
-/* Get products by category id route. */
-productRouter.get('/category/:categoryId', async (req: Request, res: Response, next: NextFunction) => {
+/* Get all orders route. */
+orderRouter.get('', async (_req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await productDataAccess.getProductsByCategoryId(parseInt(req.params.categoryId));
+    const result = await orderDataAccess.getAllOrders();
 
     if (result.error) {
       next(result.error);
@@ -65,10 +65,10 @@ productRouter.get('/category/:categoryId', async (req: Request, res: Response, n
   }
 });
 
-/* Get all products route. */
-productRouter.get('', async (_req: Request, res: Response, next: NextFunction) => {
+/* Get orders by product id route. */
+orderRouter.get('/product/:productId', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await productDataAccess.getAllProducts();
+    const result = await orderDataAccess.getOrdersByProductId(parseInt(req.params.productId));
 
     if (result.error) {
       next(result.error);

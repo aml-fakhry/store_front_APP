@@ -10,6 +10,8 @@ import {
   productRouter,
   categoryRelativeRouter,
   categoryRouter,
+  orderRelativeRouter,
+  orderRouter,
 } from '../routes';
 import { Logger } from '../shared';
 import { errorHandler } from './../shared/middleware/error-handler.middleware';
@@ -40,6 +42,7 @@ function registerRouter(app: Application) {
   app.use(apiBaseRoute + userRelativeRouter, userRouter);
   app.use(apiBaseRoute + productRelativeRouter, productRouter);
   app.use(apiBaseRoute + categoryRelativeRouter, categoryRouter);
+  app.use(apiBaseRoute + orderRelativeRouter, orderRouter);
 }
 
 /**

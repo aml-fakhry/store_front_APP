@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 
 import { categoryDataAccess } from '../../data/category';
-import { NotFound, OK, unAuthenticated, BadRequest } from '../../shared/utils/http-response.util';
+import { NotFound, OK, BadRequest } from '../../shared/utils/http-response.util';
 
 /* category router to hold all modules route. */
 export const categoryRouter = express.Router();
@@ -39,7 +39,7 @@ categoryRouter.get('/:id', async (req: Request, res: Response, next: NextFunctio
     if (result.error) {
       next(result.error);
     } else if (result.isNotFound) {
-      return unAuthenticated(res);
+      NotFound(res);
     } else if (result.data) {
       OK(res, result);
     }
@@ -56,7 +56,7 @@ categoryRouter.get('', async (_req: Request, res: Response, next: NextFunction) 
     if (result.error) {
       next(result.error);
     } else if (result.isNotFound) {
-      unAuthenticated(res);
+      NotFound(res);
     } else if (result.data) {
       OK(res, result);
     }
