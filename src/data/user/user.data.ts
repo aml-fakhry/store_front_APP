@@ -138,9 +138,8 @@ export class userDataAccess {
       /* Create a new user. */
       const accessToken = (
         await Database.query(
-          `INSERT INTO "accessTokens"
-          ("id" ,"issuedAt", "expiresAt", "userId")
-          VALUES ($1, $2, $3, $4) RETURNING id;`,
+          `INSERT INTO "accessTokens"("id" ,"issuedAt", "expiresAt", "userId")
+           VALUES ($1, $2, $3, $4) RETURNING id;`,
           [data.id, data.issuedAt, data.expiresAt, data.userId]
         )
       ).rows[0];
