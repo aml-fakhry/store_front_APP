@@ -13,7 +13,7 @@ export const productRouter = express.Router();
  */
 export const productRelativeRouter = 'product';
 
-productRouter.post('', async (req: Request, res: Response, next: NextFunction) => {
+productRouter.post('', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await productDataAccess.create(req.body);
 
@@ -31,8 +31,42 @@ productRouter.post('', async (req: Request, res: Response, next: NextFunction) =
   }
 });
 
+/* Get all products route. */
+productRouter.get('', Authenticate, async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await productDataAccess.getAllProducts();
+
+    if (result.error) {
+      next(result.error);
+    } else if (result.isNotFound) {
+      NotFound(res);
+    } else if (result.data) {
+      OK(res, result);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* Get top products route. */
+productRouter.get('/top-products', Authenticate, async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await productDataAccess.getTopProducts();
+
+    if (result.error) {
+      next(result.error);
+    } else if (result.isNotFound) {
+      NotFound(res);
+    } else if (result.data) {
+      OK(res, result);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 /* Get product route by id. */
-productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+productRouter.get('/:id', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await productDataAccess.findById(parseInt(req.params.id));
 
@@ -49,26 +83,9 @@ productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction
 });
 
 /* Get products by category id route. */
-productRouter.get('/category/:categoryId', async (req: Request, res: Response, next: NextFunction) => {
+productRouter.get('/category/:categoryId', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await productDataAccess.getProductsByCategoryId(parseInt(req.params.categoryId));
-
-    if (result.error) {
-      next(result.error);
-    } else if (result.isNotFound) {
-      NotFound(res);
-    } else if (result.data) {
-      OK(res, result);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
-/* Get all products route. */
-productRouter.get('', async (_req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await productDataAccess.getAllProducts();
 
     if (result.error) {
       next(result.error);

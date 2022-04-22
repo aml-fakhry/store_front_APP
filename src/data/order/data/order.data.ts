@@ -16,9 +16,9 @@ export class orderDataAccess {
       /* Create a new order. */
       const order = (
         await Database.query(
-          `INSERT INTO orders (quantity, productId,userId )
-           VALUES ($1, $2, $3) RETURNING id;`,
-          [data.quantity, data.productId, data.userId]
+          `INSERT INTO orders (status, quantity, productId,userId )
+           VALUES ($1, $2, $3 ,$4) RETURNING id;`,
+          [data.status, data.quantity, data.productId, data.userId]
         )
       ).rows[0];
 
@@ -61,14 +61,32 @@ export class orderDataAccess {
   }
 
   /**
-   * Gets the orders by product id.
-   * @param productId the id of product.
+   * Gets the orders by user id.
+   * @param userId the id of user.
    * @returns
    */
-  static async getOrdersByProductId(productId: number): Promise<DataResult<orderDTO[]>> {
+  static async getOrdersByUserId(userId: number): Promise<DataResult<orderDTO[]>> {
     const result: DataResult<orderDTO[]> = {} as DataResult<orderDTO[]>;
     try {
-      result.data = (await Database.query(`SELECT * FROM orders Where productId = $1 ;`, [productId])).rows;
+      result.data = (await Database.query(`SELECT * FROM orders Where userId = $1 ;`, [userId])).rows;
+      result.isNotFound = !result.data;
+    } catch (error) {
+      result.error = error;
+    }
+    return result;
+  }
+
+  /**
+   * Gets the completed orders by user id.
+   * @param userId the id of user.
+   * @returns
+   */
+  static async getCompletedOrderByUserId(userId: number): Promise<DataResult<orderDTO[]>> {
+    const result: DataResult<orderDTO[]> = {} as DataResult<orderDTO[]>;
+    try {
+      result.data = (
+        await Database.query(`SELECT * FROM orders Where userId = $1 And status = $2 ;`, [userId, 'complete'])
+      ).rows;
       result.isNotFound = !result.data;
     } catch (error) {
       result.error = error;

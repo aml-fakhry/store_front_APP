@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
+import { Authenticate } from '../../shared';
 
-import { NotFound, OK, unAuthenticated, BadRequest } from '../../shared/utils/http-response.util';
+import { NotFound, OK, BadRequest } from '../../shared/utils/http-response.util';
 import { orderDataAccess } from './../../data/order/data/order.data';
 
 /* order router to hold all modules route. */
@@ -13,7 +14,7 @@ export const orderRouter = express.Router();
 export const orderRelativeRouter = 'order';
 
 /* Create a new order. */
-orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+orderRouter.post('/', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await orderDataAccess.create(req.body);
 
@@ -32,7 +33,7 @@ orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) =>
 });
 
 /* Get order route by id. */
-orderRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+orderRouter.get('/:id', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await orderDataAccess.findById(parseInt(req.params.id));
 
@@ -49,7 +50,7 @@ orderRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) 
 });
 
 /* Get all orders route. */
-orderRouter.get('', async (_req: Request, res: Response, next: NextFunction) => {
+orderRouter.get('', Authenticate, async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await orderDataAccess.getAllOrders();
 
@@ -65,10 +66,27 @@ orderRouter.get('', async (_req: Request, res: Response, next: NextFunction) => 
   }
 });
 
-/* Get orders by product id route. */
-orderRouter.get('/product/:productId', async (req: Request, res: Response, next: NextFunction) => {
+/* Get orders by user id route. */
+orderRouter.get('/product/:userId', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await orderDataAccess.getOrdersByProductId(parseInt(req.params.productId));
+    const result = await orderDataAccess.getOrdersByUserId(parseInt(req.params.userId));
+
+    if (result.error) {
+      next(result.error);
+    } else if (result.isNotFound) {
+      NotFound(res);
+    } else if (result.data) {
+      OK(res, result);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* Get completed orders by user id route. */
+orderRouter.get('/complete-product/:userId', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await orderDataAccess.getCompletedOrderByUserId(parseInt(req.params.userId));
 
     if (result.error) {
       next(result.error);

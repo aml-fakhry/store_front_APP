@@ -97,4 +97,29 @@ export class productDataAccess {
     }
     return result;
   }
+
+  /**
+   * Gets top products.
+   * @returns
+   */
+  static async getTopProducts(): Promise<DataResult<unknown[]>> {
+    const result: DataResult<unknown[]> = {} as DataResult<unknown[]>;
+    try {
+      result.data = (
+        await Database.query(
+          `SELECT
+            productId, count(productId) AS freq
+            FROM public."orders"
+            GROUP BY productId
+            ORDER BY freq DESC LIMIT 5;`
+        )
+      ).rows;
+      console.log(result.data);
+
+      result.isNotFound = !result.data;
+    } catch (error) {
+      result.error = error;
+    }
+    return result;
+  }
 }

@@ -3,7 +3,7 @@
 CREATE TABLE public."orders" (
   id SERIAL PRIMARY KEY,
   quantity integer NOT NULL,
-  status boolean NOT NULL DEFAULT true,
+  status VARCHAR(15),
   productId bigint REFERENCES products(id),
   userId bigint REFERENCES users(id)
 );

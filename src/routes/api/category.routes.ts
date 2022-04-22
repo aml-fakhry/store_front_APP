@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 
 import { categoryDataAccess } from '../../data/category';
+import { Authenticate } from '../../shared';
 import { NotFound, OK, BadRequest } from '../../shared/utils/http-response.util';
 
 /* category router to hold all modules route. */
@@ -13,7 +14,7 @@ export const categoryRouter = express.Router();
 export const categoryRelativeRouter = 'category';
 
 /* Create a new category. */
-categoryRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+categoryRouter.post('/', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await categoryDataAccess.create(req.body);
 
@@ -32,7 +33,7 @@ categoryRouter.post('/', async (req: Request, res: Response, next: NextFunction)
 });
 
 /* Get category route by id. */
-categoryRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+categoryRouter.get('/:id', Authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await categoryDataAccess.findById(parseInt(req.params.id));
 
@@ -49,7 +50,7 @@ categoryRouter.get('/:id', async (req: Request, res: Response, next: NextFunctio
 });
 
 /* Get all categories route. */
-categoryRouter.get('', async (_req: Request, res: Response, next: NextFunction) => {
+categoryRouter.get('', Authenticate, async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await categoryDataAccess.getAllCategories();
 
