@@ -56,9 +56,8 @@ export class userDataAccess {
       /* Create a new user. */
       const user = (
         await Database.query(
-          `INSERT INTO users(
-         username, email, password, country, phone)
-        VALUES ($1, $2, $3, $4, $5) RETURNING id;`,
+          `INSERT INTO users(username, email, password, country, phone)
+           VALUES ($1, $2, $3, $4, $5) RETURNING id;`,
           [data.username, data.email, hashedPassword, data.country, data.phone]
         )
       ).rows[0];

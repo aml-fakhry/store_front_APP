@@ -2,17 +2,11 @@
 -- DROP TABLE public.users;
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  username VARCHAR(150),
-  email VARCHAR(50),
-  password VARCHAR(120),
+  username VARCHAR(150) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  password VARCHAR(120) NOT NULL,
   country VARCHAR(150),
   phone VARCHAR(50)
-);
-
-CREATE TABLE products (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(64) NOT NULL,
-  price integer NOT NULL
 );
 
 CREATE TABLE orders (
