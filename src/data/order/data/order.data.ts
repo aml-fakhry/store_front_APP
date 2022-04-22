@@ -61,7 +61,8 @@ export class orderDataAccess {
   }
 
   /**
-   * Gets the products by order id.
+   * Gets the orders by product id.
+   * @param productId the id of product.
    * @returns
    */
   static async getOrdersByProductId(productId: number): Promise<DataResult<orderDTO[]>> {
