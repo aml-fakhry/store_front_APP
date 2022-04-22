@@ -1,3 +1,2 @@
-export * from './user.data';
-export * from './models/user.dto';
-// export * from './user.validator';
+export * from './data';
+export * from './model';

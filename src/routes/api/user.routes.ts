@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 import { AppError, AppErrorCode, Authenticate, JWT } from '../../shared';
 import { NotFound, OK, unAuthenticated, BadRequest } from '../../shared/utils/http-response.util';
-import { userDataAccess } from './../../data/user/user.data';
+import { userDataAccess } from '../../data/user/data/user.data';
 
 /* user router to hold all modules route. */
 export const userRouter = express.Router();

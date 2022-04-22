@@ -1,9 +1,9 @@
-import { DataResult } from './../../shared/model/data-result.model';
-import { Database } from './../../server/server';
-import { userDTO } from './models/user.dto';
-import { Hash } from '../../shared/utils/hash.util';
-import { AppError, AppErrorCode } from '../../shared';
-import { accessTokenDTO } from './models/access-token.dto';
+import { DataResult } from '../../../shared/model/data-result.model';
+import { Database } from '../../../server/server';
+import { userDTO } from '../model/user.dto';
+import { Hash } from '../../../shared/utils/hash.util';
+import { AppError, AppErrorCode } from '../../../shared';
+import { accessTokenDTO } from '../model/access-token.dto';
 /**
  * the user data-access service it includes all functionalities such create, search, delete and update.
  */
