@@ -1,20 +1,75 @@
-# Store front api
+# Udacity: Build a Storefront Backend
 
-Create an image processing API that resizes and saves images to user specifications
+## Contents:
+
+1-Description.
+
+2-Project build depended on.
+
+3-Database diagram
+
+4-Project Structure.
+
+5-How To Use.
+
+6-Functionality and Endpoints.
+
+7-Development.
 
 ## Description
 
-Create an image processing API that resizes and saves images to user specifications when visiting a URL
+This is a backend API build in Nodejs for an online store. It exposes a RESTful API that will be used by the frontend developer on the frontend.
+
+The database schema and and API route information can be found in the [REQUIREMENT.md](REQUIREMENTS.md)
+
+## Database diagram
+
+![database_diagram](store_front_db_erd.png)
 
 ### Installing
 
 - You cane download my project.
 
 ```
-git clone https://github.com/aml-fakhry/first_project-fwd_web_advanced.git
+git clone https://github.com/aml-fakhry/store_front_APP.git
 ```
 
 - project requires having node installed https://nodejs.org/en/download/
+
+## Project build depended on
+
+- The language used and application logic
+
+1. [TypeScript] (https://www.typescriptlang.org/docs/)
+2. [Node.JS] (https://nodejs.org/dist/latest-v16.x/docs/api/)
+3. [Express] (https://expressjs.com/)
+
+- For managing environment variables
+
+1. [dotenv] (https://www.npmjs.com/package/dotenv)
+
+- For the database and migration
+
+1. [pg] (https://node-postgres.com/)
+2. [db-migrate] (https://db-migrate.readthedocs.io/en/latest/)
+3. [db-migrate-pg] (https://www.npmjs.com/package/db-migrate-pg)
+
+- For authentication and security
+
+1. [jsonwebtoken] (https://www.npmjs.com/package/jsonwebtoken)
+2. [bcrypt] (https://www.npmjs.com/package/bcrypt)
+3. [morgan] (https://www.npmjs.com/package/morgan)
+4. [helmet] (https://www.npmjs.com/package/helmet)
+
+- For Fixing and Formatting Code
+
+1. [ESLint] (https://eslint.org/docs/user-guide/getting-started)
+2. [Prettier] (https://prettier.io/docs/en/index.html)
+
+- For Unit testing
+
+1. [Jasmine] (https://jasmine.github.io/)
+2. [supertest] (https://www.npmjs.com/package/supertest)
 
 ### Executing program (scripts)
 
@@ -128,22 +183,6 @@ describe('Test image processing API', () => {
 ## License
 
 This project is licensed under the Aml Fakhri License - see the LICENSE.md file for details
-
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-
-- [eslint](https://eslint.org/)
-- [prettier](https://prettier.io/)
-- [lint-staged](https://www.npmjs.com/package/lint-staged)
-- [sharp](https://www.npmjs.com/package/sharp)
-- [jasmine](https://jasmine.github.io/)
-- [pg](https://www.npmjs.com/package/pg)
-- [supertest](https://www.npmjs.com/package/supertest)
-- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-- [db-migrate](https://www.npmjs.com/package/db-migrate)
-- [tsc-watch](https://www.npmjs.com/package/tsc-watch)
-- [bcrypt](https://www.npmjs.com/package/bcrypt)
 
 ## Project structure.
 
