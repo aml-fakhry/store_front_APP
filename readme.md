@@ -112,7 +112,7 @@ yarn "test:db"
 ## Functionality
 
 ```
--
+- we have 4 main dataAccess contain functionalities for create and search in different cases requirement.
 1. userDataAccess
 2. productDataAccess
 3. orderDataAccess
