@@ -69,11 +69,15 @@ describe('Order Model', () => {
     expect(result).toEqual([
       {
         product_id: '1',
-        freq: '14',
+        freq: '15',
       },
       {
         product_id: '2',
         freq: '4',
+      },
+      {
+        product_id: '5',
+        freq: '1',
       },
     ]);
   });

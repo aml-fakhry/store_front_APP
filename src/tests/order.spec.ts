@@ -177,6 +177,20 @@ describe('Order Model', () => {
         product_id: '1',
         user_id: '1',
       },
+      {
+        id: 22,
+        quantity: 3,
+        status: 'active',
+        product_id: '5',
+        user_id: '1',
+      },
+      {
+        id: 21,
+        quantity: 3,
+        status: 'active',
+        product_id: '1',
+        user_id: '1',
+      },
     ]);
   });
 });
@@ -318,6 +332,20 @@ it('getAllOrders method to get all orders.', async () => {
     },
     {
       id: 20,
+      quantity: 3,
+      status: 'active',
+      product_id: '1',
+      user_id: '1',
+    },
+    {
+      id: 22,
+      quantity: 3,
+      status: 'active',
+      product_id: '5',
+      user_id: '1',
+    },
+    {
+      id: 21,
       quantity: 3,
       status: 'active',
       product_id: '1',
