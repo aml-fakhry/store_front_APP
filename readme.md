@@ -20,7 +20,7 @@ The database schema and and API route information can be found in the [REQUIREME
 
 ## Database diagram
 
-![database_diagram](store_front_db_erd.png)
+![database_diagram](ERD_DB.png)
 
 ### Installing
 
