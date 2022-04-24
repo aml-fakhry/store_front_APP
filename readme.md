@@ -125,19 +125,21 @@ yarn "test:db"
 1- create database script.
 
 ```javascript
--- Database: store_front
--- DROP DATABASE store_front;
-CREATE DATABASE store_front WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'Arabic_Saudi Arabia.1256' LC_CTYPE = 'Arabic_Saudi Arabia.1256' TABLESPACE = pg_default CONNECTION
-LIMIT
-  = -1;
+
+CREATE DATABASE store_front
+   WITH OWNER = postgres
+   ENCODING = 'UTF8'
+   LC_COLLATE = 'Arabic_Saudi Arabia.1256'
+   LC_CTYPE = 'Arabic_Saudi Arabia.1256'
+   TABLESPACE = pg_default CONNECTION
+   LIMIT = -1;
 ```
 
 2- create user script.
 
 ```javascript
 -- Database: store_front
--- Table: public.users
--- DROP TABLE public.users;
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(150) NOT NULL,
@@ -153,8 +155,7 @@ CREATE TABLE users (
 3- create accessTokens script.
 
 ```javascript
--- Table: public.accessTokens
--- DROP TABLE public."accessTokens";
+
 CREATE TABLE public."accessTokens" (
   id character(36) COLLATE pg_catalog."default" NOT NULL,
   "issuedAt" timestamp with time zone NOT NULL,
@@ -168,8 +169,7 @@ CREATE TABLE public."accessTokens" (
 4- create categories script.
 
 ```javascript
--- Table: public."categories"
--- DROP TABLE public."categories";
+
 CREATE TABLE public."categories" (
   id SERIAL PRIMARY KEY,
   name VARCHAR(64) NOT NULL
@@ -179,8 +179,7 @@ CREATE TABLE public."categories" (
 5- create products script.
 
 ```javascript
--- Table: public."products"
--- DROP TABLE public."products";
+
 CREATE TABLE public."products" (
   id SERIAL PRIMARY KEY,
   name VARCHAR(64) NOT NULL,
@@ -193,8 +192,7 @@ CREATE TABLE public."products" (
 5- create orders script.
 
 ```javascript
--- Table: public."orders"
--- DROP TABLE public."orders";
+
 CREATE TABLE public."orders" (
   id SERIAL PRIMARY KEY,
   quantity integer NOT NULL,
