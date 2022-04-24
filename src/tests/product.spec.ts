@@ -65,6 +65,24 @@ describe('Order Model', () => {
   });
 
   it('getTopProducts method to get trend product.', async () => {
+    spyOn(Database, 'query').and.returnValue(
+      Promise.resolve({
+        rows: [
+          {
+            product_id: '1',
+            freq: '15',
+          },
+          {
+            product_id: '2',
+            freq: '4',
+          },
+          {
+            product_id: '5',
+            freq: '1',
+          },
+        ],
+      } as QueryResult)
+    );
     const result = (await productDataAccess.getTopProducts()).data;
     expect(result).toEqual([
       {

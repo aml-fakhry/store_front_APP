@@ -17,10 +17,16 @@ export class orderDataAccess {
       const order = (
         await Database.query(
           `INSERT INTO orders (status, quantity, product_id, user_id )
-           VALUES ($1, $2, $3 ,$4) RETURNING id;`,
+           VALUES ($1, $2, $3, $4) RETURNING *;`,
           [data.status, data.quantity, data.product_id, data.user_id]
         )
       ).rows[0];
+
+      await Database.query(
+        `INSERT INTO order_products (quantity, order_id, product_id )
+         VALUES ($1, $2, $3 ) RETURNING id;`,
+        [order.quantity, order.id, data.product_id]
+      );
 
       result.data = (await this.findById(order.id)).data;
     } catch (error) {

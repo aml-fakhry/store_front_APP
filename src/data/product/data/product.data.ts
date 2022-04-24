@@ -108,7 +108,7 @@ export class productDataAccess {
         await Database.query(
           `SELECT
             product_id, count(product_id) AS freq
-            FROM public."orders"
+            FROM public."order_products"
             GROUP BY product_id
             ORDER BY freq DESC LIMIT 5;`
         )
