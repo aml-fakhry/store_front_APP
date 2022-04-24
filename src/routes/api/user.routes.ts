@@ -58,7 +58,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
       expiresAt: new Date((jwtData?.exp ?? 0) * 1000),
     });
 
-    const getsAccessToken = await userDataAccess.findAccessTokenById(parseInt(accessTokenResult?.data.id));
+    const getsAccessToken = await userDataAccess.findAccessTokenById(parseInt(accessTokenResult?.data.id ?? ''));
 
     if (getsAccessToken.error) {
       next(getsAccessToken.error);

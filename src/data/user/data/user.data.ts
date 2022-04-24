@@ -56,9 +56,9 @@ export class userDataAccess {
       /* Create a new user. */
       const user = (
         await Database.query(
-          `INSERT INTO users(username, email, password, country, phone)
-           VALUES ($1, $2, $3, $4, $5) RETURNING id;`,
-          [data.username, data.email, hashedPassword, data.country, data.phone]
+          `INSERT INTO users(username, firstname, lastname, email, password, country, phone)
+           VALUES ($1, $2, $3, $4, $5 ,$6 ,$7) RETURNING id;`,
+          [data.username, data.firstname, data.lastname, data.email, hashedPassword, data.country, data.phone]
         )
       ).rows[0];
 
@@ -117,7 +117,7 @@ export class userDataAccess {
   /**
    * Create a new access-token based on provided data model.
    */
-  static async createAccessToken(data: accessTokenDTO) {
+  static async createAccessToken(data: accessTokenDTO): Promise<DataResult<accessTokenDTO>> {
     const result: DataResult<accessTokenDTO> = {} as DataResult<accessTokenDTO>;
 
     try {
