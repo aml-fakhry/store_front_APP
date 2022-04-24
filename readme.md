@@ -202,6 +202,18 @@ CREATE TABLE public."orders" (
 );
 ```
 
+6- create order_products script.
+
+```javascript
+
+CREATE TABLE public."order_products" (
+  id SERIAL PRIMARY KEY,
+  quantity integer NOT NULL,
+  order_id bigint REFERENCES orders(id) NOT NULL,
+  product_id bigint REFERENCES products(id) NOT NULL
+);
+```
+
 ## Endpoints
 
 > Here My work space in postman contain store front collection
