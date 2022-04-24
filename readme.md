@@ -10,7 +10,7 @@
 
 4-Project Structure.
 
-5-How To Use.
+5-How To setup project database.
 
 ## Description
 
@@ -120,7 +120,7 @@ yarn "test:db"
 
 ```
 
-### database create
+### How To setup project database.
 
 1- create database script.
 
