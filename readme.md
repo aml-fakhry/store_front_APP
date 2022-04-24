@@ -111,17 +111,12 @@ yarn "test:db"
 
 ## Functionality
 
-1- Resize image
+1- userDataAccess
+2- productDataAccess
+3- orderDataAccess
+4- categoryDataAccess
 
-- resizeImage() method to resize images.
-- @param filename the file name to be processed.
-- @param width the width of image.
-- @param height the height of image.
-- @returns promise of data result.
-
-```
-(method) resizeImage(filename: string, width: number, height: number): Promise<DataResult>
-```
+````
 
 ### database create
 
@@ -133,7 +128,7 @@ yarn "test:db"
 CREATE DATABASE store_front WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'Arabic_Saudi Arabia.1256' LC_CTYPE = 'Arabic_Saudi Arabia.1256' TABLESPACE = pg_default CONNECTION
 LIMIT
   = -1;
-```
+````
 
 2- create user script.
 
