@@ -1,7 +1,7 @@
 export interface orderDTO {
-  id: number;
-  status: boolean;
+  id?: number;
+  status: string;
   quantity: number;
-  productId: string;
-  userId: string;
+  product_id: string;
+  user_id: string;
 }

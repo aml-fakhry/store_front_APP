@@ -4,6 +4,6 @@ CREATE TABLE public."orders" (
   id SERIAL PRIMARY KEY,
   quantity integer NOT NULL,
   status VARCHAR(15),
-  productId bigint REFERENCES products(id),
-  userId bigint REFERENCES users(id)
+  product_id bigint REFERENCES products(id),
+  user_id bigint REFERENCES users(id)
 );

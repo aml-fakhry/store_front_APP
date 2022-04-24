@@ -4,5 +4,5 @@ CREATE TABLE public."products" (
   id SERIAL PRIMARY KEY,
   name VARCHAR(64) NOT NULL,
   price integer NOT NULL,
-  categoryId bigint REFERENCES categories(id)
+  category_id bigint REFERENCES categories(id)
 );

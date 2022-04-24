@@ -2,7 +2,6 @@ import { DataResult } from '../../../shared/model/data-result.model';
 import { Database } from '../../../server/server';
 import { productDTO } from './../model/product.dto';
 import { AppError, AppErrorCode } from '../../../shared';
-import { categoryDTO } from '../../category/model/category.dto';
 
 /**
  * the product data-access service it includes all functionalities such create, search, delete and update.
@@ -39,9 +38,9 @@ export class productDataAccess {
       /* Create a new product. */
       const product = (
         await Database.query(
-          `INSERT INTO products (name, price, categoryId)
+          `INSERT INTO products (name, price, category_id)
            VALUES ($1, $2, $3) RETURNING id;`,
-          [data.name, data.price, data.categoryId]
+          [data.name, data.price, data.category_id]
         )
       ).rows[0];
 
@@ -90,7 +89,7 @@ export class productDataAccess {
   static async getProductsByCategoryId(categoryId: number): Promise<DataResult<productDTO[]>> {
     const result: DataResult<productDTO[]> = {} as DataResult<productDTO[]>;
     try {
-      result.data = (await Database.query(`SELECT * FROM products Where categoryId = $1 ;`, [categoryId])).rows;
+      result.data = (await Database.query(`SELECT * FROM products Where category_id = $1 ;`, [categoryId])).rows;
       result.isNotFound = !result.data;
     } catch (error) {
       result.error = error;
@@ -108,13 +107,12 @@ export class productDataAccess {
       result.data = (
         await Database.query(
           `SELECT
-            productId, count(productId) AS freq
+            product_id, count(product_id) AS freq
             FROM public."orders"
-            GROUP BY productId
+            GROUP BY product_id
             ORDER BY freq DESC LIMIT 5;`
         )
       ).rows;
-      console.log(result.data);
 
       result.isNotFound = !result.data;
     } catch (error) {

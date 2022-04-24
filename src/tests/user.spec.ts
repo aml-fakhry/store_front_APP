@@ -1,5 +1,7 @@
 import { userDataAccess } from '../data/user/data/user.data';
 import { Hash } from './../shared/utils/hash.util';
+import { Database } from './../server/server';
+import { QueryResult } from 'pg';
 
 const user = {
   username: 'aml fakhri 5' /* should username change this after every test. */,
@@ -23,41 +25,6 @@ const createResult = {
     phone: user.phone,
   },
 };
-const [findByIdUserResult, loginResult] = [
-  {
-    data: {
-      id: createResult.data.id,
-      username: user.username,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      password: createResult.data.password,
-      country: user.country,
-      phone: user.phone,
-    },
-    isNotFound: false,
-  },
-  {
-    data: {
-      user: {
-        id: createResult.data.id,
-        username: user.username,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        password: createResult.data.password,
-        country: user.country,
-        phone: user.phone,
-      },
-      jwt: {
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMzODUyM2M4LTdkZDEtNDllZS1hZDUyLTkyNTVjYjcwMzU3NSIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNzkyMTY1LCJleHAiOjE2NTMzODQxNjV9.0T0VMJcp4YZ6ZLCez4VQkJDT6UyKrcP8x7WxUVniDZc',
-        issuedAt: '2022-04-24T09:22:45.000Z',
-        expiresAt: '2022-05-24T09:22:45.000Z',
-      },
-    },
-  },
-];
 
 describe('User Model', () => {
   it('should have a create method', async () => {
@@ -80,21 +47,48 @@ describe('User Model', () => {
     expect(userDataAccess.findAccessTokenById).toBeDefined();
   });
 
-  it('create method should add a user', async () => {
-    const result = (await userDataAccess.create(user)).data;
-    console.log(result);
-
-    expect(result).toEqual(createResult.data);
-  });
-
   it('findById method should return a specific user', async () => {
-    const userResult = (await userDataAccess.findById(createResult.data.id)).data;
-    expect(userResult).toEqual(findByIdUserResult.data);
+    spyOn(Database, 'query').and.returnValue(
+      Promise.resolve({
+        rows: [
+          {
+            id: 1,
+            username: 'aml fakhri',
+            firstname: 'aml',
+            lastname: 'fakhri',
+            email: 'aml_fakhri@gmail.com',
+            password: '$2b$10$892rG1t4WJEEWjQNYz0fnegUB2ESyj1ZXOcAPS9V1o7GMJqTKQ1yS',
+            country: 'egypt',
+            phone: '021345457',
+          },
+        ],
+      } as QueryResult)
+    );
+    const userResult = (await userDataAccess.findById(1)).data;
+    expect(userResult).toEqual({
+      id: 1,
+      username: 'aml fakhri',
+      firstname: 'aml',
+      lastname: 'fakhri',
+      email: 'aml_fakhri@gmail.com',
+      password: '$2b$10$892rG1t4WJEEWjQNYz0fnegUB2ESyj1ZXOcAPS9V1o7GMJqTKQ1yS',
+      country: 'egypt',
+      phone: '021345457',
+    });
   });
 
   it('findByCredentials (login) method should Finds the user with the given `username` and `password`', async () => {
-    const result = (await userDataAccess.findByCredentials(user.username, user.password)).data;
-    expect(result).toEqual(loginResult.data.user);
+    const result = (await userDataAccess.findByCredentials('aml fakhri 3', '223344')).data;
+    expect(result).toEqual({
+      id: 4,
+      username: 'aml fakhri 3',
+      firstname: 'aml',
+      lastname: 'fakhri',
+      email: 'aml_fakhri3@gmail.com',
+      password: '$2b$10$YP2VgqFstbkLDwmWVOukDucTR2fvfMWVVQVcEpof69oHRyPdrG97q',
+      country: 'egypt',
+      phone: '021345457',
+    });
   });
 
   // it('show method should return the correct book', async () => {

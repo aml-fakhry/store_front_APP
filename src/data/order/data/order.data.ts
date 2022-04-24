@@ -16,9 +16,9 @@ export class orderDataAccess {
       /* Create a new order. */
       const order = (
         await Database.query(
-          `INSERT INTO orders (status, quantity, productId,userId )
+          `INSERT INTO orders (status, quantity, product_id, user_id )
            VALUES ($1, $2, $3 ,$4) RETURNING id;`,
-          [data.status, data.quantity, data.productId, data.userId]
+          [data.status, data.quantity, data.product_id, data.user_id]
         )
       ).rows[0];
 
@@ -68,7 +68,7 @@ export class orderDataAccess {
   static async getOrdersByUserId(userId: number): Promise<DataResult<orderDTO[]>> {
     const result: DataResult<orderDTO[]> = {} as DataResult<orderDTO[]>;
     try {
-      result.data = (await Database.query(`SELECT * FROM orders Where userId = $1 ;`, [userId])).rows;
+      result.data = (await Database.query(`SELECT * FROM orders Where user_id = $1 ;`, [userId])).rows;
       result.isNotFound = !result.data;
     } catch (error) {
       result.error = error;
@@ -85,7 +85,7 @@ export class orderDataAccess {
     const result: DataResult<orderDTO[]> = {} as DataResult<orderDTO[]>;
     try {
       result.data = (
-        await Database.query(`SELECT * FROM orders Where userId = $1 And status = $2 ;`, [userId, 'complete'])
+        await Database.query(`SELECT * FROM orders Where user_id = $1 And status = $2 ;`, [userId, 'complete'])
       ).rows;
       result.isNotFound = !result.data;
     } catch (error) {
