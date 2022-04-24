@@ -12,10 +12,6 @@
 
 5-How To Use.
 
-6-Functionality and Endpoints.
-
-7-Development.
-
 ## Description
 
 This is a backend API build in Nodejs for an online store. It exposes a RESTful API that will be used by the frontend developer on the frontend.
@@ -109,6 +105,12 @@ yarn lint
 yarn format
 ```
 
+- test database
+
+```
+yarn "test:db"
+```
+
 ## Functionality
 
 1- Resize image
@@ -123,57 +125,88 @@ yarn format
 (method) resizeImage(filename: string, width: number, height: number): Promise<DataResult>
 ```
 
-## Unit tests.
+### database create
 
-1- Check if image exist in full or thumb folders.
+1- create database script.
 
 ```javascript
-describe('Check if image exist in full or thumb folders.', () => {
-  it('Pass when image exist in full folder.', () => {
-    const result = fs.existsSync(fullPic1Path);
-    expect(result).toBeTruthy();
-  });
-
-  it('Pass when image not exist in full folder.', () => {
-    const result = fs.existsSync(thumbPic1Path);
-    expect(result).not.toBeTruthy();
-  });
-});
+-- Database: store_front
+-- DROP DATABASE store_front;
+CREATE DATABASE store_front WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'Arabic_Saudi Arabia.1256' LC_CTYPE = 'Arabic_Saudi Arabia.1256' TABLESPACE = pg_default CONNECTION
+LIMIT
+  = -1;
 ```
 
-2- Check if returned data from resizeImage().
+2- create user script.
 
 ```javascript
-describe('Check if returned data from resizeImage().', () => {
-  it('Pass returned data from resizeImage().', async () => {
-    const result = await imageProcessDataAccess.resizeImage('pic1', 300, 300);
-
-    expect(result.data).toBeTruthy();
-    expect(result.data.format).toBe('jpeg');
-    expect(result.data.width).toBe(300);
-    expect(result.data.width).toBe(300);
-    expect(result.validationErrors).toBeUndefined();
-    expect(result.isNotFound).toBeFalsy();
-  });
-});
+-- Database: store_front
+-- Table: public.users
+-- DROP TABLE public.users;
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(150) NOT NULL,
+  firstname VARCHAR(50) NOT NULL,
+  lastname VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  password VARCHAR(120) NOT NULL,
+  country VARCHAR(150),
+  phone VARCHAR(50)
+);
 ```
 
-2- Test image processing API.
+3- create accessTokens script.
 
 ```javascript
-const request = supertest(app);
-describe('Test image processing API', () => {
-  it('Pass when response status equal 200', async () => {
-    const response = await request.get('/api/images?filename=pic2&width=300&height=300');
-    expect(response.status).toBe(200);
-  });
+-- Table: public.accessTokens
+-- DROP TABLE public."accessTokens";
+CREATE TABLE public."accessTokens" (
+  id character(36) COLLATE pg_catalog."default" NOT NULL,
+  "issuedAt" timestamp with time zone NOT NULL,
+  "expiresAt" timestamp with time zone NOT NULL,
+  "userId" integer NOT NULL,
+  CONSTRAINT "accessTokens_pkey" PRIMARY KEY (id),
+  CONSTRAINT "accessTokens_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+) TABLESPACE pg_default;
+```
 
-  it('Pass when it fails because it is already processed.', async () => {
-    const response = await request.get('/api/images?filename=pic2&width=300&height=300');
-    expect(response.status).toBe(400);
-    expect(response.text).toBe('Ooh, this image processed before please use a new one.');
-  });
-});
+4- create categories script.
+
+```javascript
+-- Table: public."categories"
+-- DROP TABLE public."categories";
+CREATE TABLE public."categories" (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(64) NOT NULL
+);
+```
+
+5- create products script.
+
+```javascript
+-- Table: public."products"
+-- DROP TABLE public."products";
+CREATE TABLE public."products" (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(64) NOT NULL,
+  price integer NOT NULL,
+  category_id bigint REFERENCES categories(id)
+);
+
+```
+
+5- create orders script.
+
+```javascript
+-- Table: public."orders"
+-- DROP TABLE public."orders";
+CREATE TABLE public."orders" (
+  id SERIAL PRIMARY KEY,
+  quantity integer NOT NULL,
+  status VARCHAR(15),
+  product_id bigint REFERENCES products(id),
+  user_id bigint REFERENCES users(id)
+);
 ```
 
 ## Endpoints
@@ -279,9 +312,7 @@ This project is licensed under the Aml Fakhri License - see the LICENSE.md file 
 
 Contributors names and contact info
 
+```
 ex. Aml fakhri
 ex. [@aml_fakhri](amlfakhry13@gmail.com)
-
-```
-
 ```
