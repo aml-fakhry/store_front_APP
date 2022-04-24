@@ -54,8 +54,6 @@ git clone https://github.com/aml-fakhry/store_front_APP.git
 
 1. [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 2. [bcrypt](https://www.npmjs.com/package/bcrypt)
-3. [morgan](https://www.npmjs.com/package/morgan)
-4. [helmet](https://www.npmjs.com/package/helmet)
 
 - For Fixing and Formatting Code
 
