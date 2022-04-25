@@ -109,6 +109,33 @@ yarn format
 yarn "test:db"
 ```
 
+## ENV variable
+
+- port for run project
+
+```
+  APP_PORT = "3000"
+```
+
+- keys for database configuration
+
+```
+PSQL_HOST = "localhost"
+PSQL_DB = "store_front"
+PSQL_DB_TEST = "store_front_test"
+PSQL_USER = "postgres"
+PSQL_PASSWORD = "11111111"
+ENV = "dev",
+```
+
+- keys for encrypt data and jwt.
+
+HASHING_SALT_ROUNDS = "10"
+JWT_PRIVATE_KEY = "Amoli_fari",
+JWT_LIFE_TIME = "30d"
+
+![env](env.png)
+
 ## Functionality
 
 ```
