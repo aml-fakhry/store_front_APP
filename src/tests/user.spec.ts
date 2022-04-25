@@ -2,6 +2,8 @@ import { userDataAccess } from '../data/user/data/user.data';
 import { Hash } from './../shared/utils/hash.util';
 import { Database } from './../server/server';
 import { QueryResult } from 'pg';
+import supertest from 'supertest';
+import { app } from '../app';
 
 const user = {
   username: 'aml fakhri 5' /* should username change this after every test. */,
@@ -88,6 +90,41 @@ describe('User Model', () => {
       password: '$2b$10$YP2VgqFstbkLDwmWVOukDucTR2fvfMWVVQVcEpof69oHRyPdrG97q',
       country: 'egypt',
       phone: '021345457',
+    });
+  });
+
+  /**
+   * integration test.
+   */
+  const request = supertest(app);
+  describe('Test user endpoint API', () => {
+    it('Pass when response status equal 200 when get user', async () => {
+      const response = await request
+        .get('/api/user/1')
+        .set(
+          'Authorization',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+        );
+      expect(response.status).toBe(200);
+    });
+
+    it('Pass when response status equal 200 when login', async () => {
+      const response = await request
+        .post('/api/user/login')
+        .send({
+          username: 'aml fakhri 12',
+          password: '223344',
+        })
+        .set(
+          'Authorization',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+        ); //set header for this test;
+      expect(response.status).toBe(200);
+    });
+
+    it('Pass when response status equal 401 when login and not authorized', async () => {
+      const response = await request.get('/api/user/0');
+      expect(response.status).toBe(401);
     });
   });
 

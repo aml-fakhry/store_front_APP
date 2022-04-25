@@ -2,6 +2,8 @@ import { QueryResult } from 'pg';
 
 import { Database } from './../server/server';
 import { productDataAccess } from './../data/product/data/product.data';
+import supertest from 'supertest';
+import { app } from '../app';
 
 describe('Order Model', () => {
   it('should have a create order method', async () => {
@@ -146,5 +148,56 @@ describe('Order Model', () => {
         category_id: '2',
       },
     ]);
+  });
+});
+
+/**
+ * integration test.
+ */
+const request = supertest(app);
+describe('Test product endpoint API', () => {
+  it('Pass when response status equal 200 when get all product', async () => {
+    const response = await request
+      .get('/api/product')
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 200 when get specific product', async () => {
+    const response = await request
+      .get('/api/product/1')
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 200 when get products by their categories.', async () => {
+    const response = await request
+      .get('/api/product/category/1')
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 200 when get trend/top products', async () => {
+    const response = await request
+      .get('/api/product/top-products')
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 401 when login and not authorized', async () => {
+    const response = await request.get('/api/product/top-products');
+    expect(response.status).toBe(401);
   });
 });
