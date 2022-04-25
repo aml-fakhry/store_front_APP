@@ -109,6 +109,12 @@ yarn format
 yarn "test:db"
 ```
 
+- ports the backend and database are running on
+
+```
+http://localhost:3000
+```
+
 ## ENV variable
 
 - port for run project
