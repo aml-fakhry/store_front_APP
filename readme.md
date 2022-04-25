@@ -356,5 +356,5 @@ This project is licensed under the Aml Fakhri License - see the LICENSE.md file 
 
 Contributors names and contact info
 
-ex. Aml fakhri
+ex. Aml fakhri @aml-fakhry
 ex. [@aml_fakhri](amlfakhry13@gmail.com)
