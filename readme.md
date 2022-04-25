@@ -130,9 +130,11 @@ ENV = "dev",
 
 - keys for encrypt data and jwt.
 
+```
 HASHING_SALT_ROUNDS = "10"
 JWT_PRIVATE_KEY = "Amoli_fari",
 JWT_LIFE_TIME = "30d"
+```
 
 ![env](env.png)
 
