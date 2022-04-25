@@ -1,6 +1,4 @@
 /* Replace with your SQL commands */
--- Table: public.accessTokens
--- DROP TABLE public."accessTokens";
 CREATE TABLE public."accessTokens" (
   id character(36) COLLATE pg_catalog."default" NOT NULL,
   "issuedAt" timestamp with time zone NOT NULL,
