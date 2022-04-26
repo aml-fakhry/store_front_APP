@@ -9,6 +9,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 1- ###user
 
 - [signup]
+
+```javascript
   POST localhost:3000/api/user/signup HTTP/1.1
   Host: localhost:3000
   Content-Length: 202
@@ -22,8 +24,11 @@ These are the notes from a meeting with the frontend developer that describe wha
 "country":"egypt",
 "phone":"021345457"
 }
+```
 
 - [login]
+
+```javascript
   POST localhost:3000/api/user/login HTTP/1.1
   Host: localhost:3000
   Content-Length: 55
@@ -32,15 +37,21 @@ These are the notes from a meeting with the frontend developer that describe wha
 "username": "aml fakhri 12",
 "password":"223344"
 }
+```
 
 - [getById]
+
+```javascript
   GET localhost:3000/api/user/1 HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
 2- category
 
 - [create]
+
+```javascript
   POST localhost:3000/api/category HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
@@ -49,20 +60,29 @@ These are the notes from a meeting with the frontend developer that describe wha
 {
 "name":"category 5"
 }
+```
 
 - [getById]
+
+```javascript
   GET localhost:3000/api/category/1 HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
 - [getAllCategories]
+
+```javascript
   GET localhost:3000/api/category HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
 3 - product
 
 - [create]
+
+```javascript
   POST localhost:3000/api/product HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
@@ -73,30 +93,45 @@ These are the notes from a meeting with the frontend developer that describe wha
 "price":30,
 "categoryId":2
 }
+```
 
 - [getAll]
+
+```javascript
   GET localhost:3000/api/product HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
 - [getById]
+
+```javascript
   GET localhost:3000/api/product/1 HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
 - [getByCategoryId]
+
+```javascript
   GET localhost:3000/api/product/category/1 HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
 - [getTopProduct]
+
+```javascript
   GET localhost:3000/api/product/top-products HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
 4- order
 
 - [create]
+
+```javascript
   POST localhost:3000/api/order HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
@@ -108,26 +143,39 @@ These are the notes from a meeting with the frontend developer that describe wha
 "product_id": 6,
 "user_id": 1
 }
+```
 
 - [getById]
+
+```javascript
   GET localhost:3000/api/order/2 HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
-  - [getOrdersByUserId]
-    GET localhost:3000/api/order/product/1 HTTP/1.1
-    Host: localhost:3000
-    Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+- [getOrdersByUserId]
 
-  - [getCompleteOrder]
-    GET localhost:3000/api/order/complete-product/1 HTTP/1.1
-    Host: localhost:3000
-    Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```javascript
+  GET localhost:3000/api/order/product/1 HTTP/1.1
+  Host: localhost:3000
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
-  - [getAllOrders]
-    GET localhost:3000/api/order HTTP/1.1
-    Host: localhost:3000
-    Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+- [getCompleteOrder]
+
+```javascript
+  GET localhost:3000/api/order/complete-product/1 HTTP/1.1
+  Host: localhost:3000
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
+
+- [getAllOrders]
+
+```javascript
+  GET localhost:3000/api/order HTTP/1.1
+  Host: localhost:3000
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
+```
 
 #### Products
 
