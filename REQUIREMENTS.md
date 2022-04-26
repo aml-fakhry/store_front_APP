@@ -23,8 +23,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 "phone":"021345457"
 }
 
----
-
 - [login]
   POST localhost:3000/api/user/login HTTP/1.1
   Host: localhost:3000
@@ -34,8 +32,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 "username": "aml fakhri 12",
 "password":"223344"
 }
-
----
 
 - [getById]
   GET localhost:3000/api/user/1 HTTP/1.1
@@ -54,21 +50,15 @@ These are the notes from a meeting with the frontend developer that describe wha
 "name":"category 5"
 }
 
----
-
 - [getById]
   GET localhost:3000/api/category/1 HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
 
----
-
 - [getAllCategories]
   GET localhost:3000/api/category HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
-
----
 
 3 - product
 
@@ -84,35 +74,25 @@ These are the notes from a meeting with the frontend developer that describe wha
 "categoryId":2
 }
 
----
-
 - [getAll]
   GET localhost:3000/api/product HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
-
----
 
 - [getById]
   GET localhost:3000/api/product/1 HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
 
----
-
 - [getByCategoryId]
   GET localhost:3000/api/product/category/1 HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
 
----
-
 - [getTopProduct]
   GET localhost:3000/api/product/top-products HTTP/1.1
   Host: localhost:3000
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0ODhjYmY4LTIyMzMtNDYxNC1hZmVhLTM2ZDI1NTE2NmFmYSIsInVzZXJJZCI6MzQsImlhdCI6MTY1MDUzODM1NCwiZXhwIjoxNjUzMTMwMzU0fQ.uCNDyloWwsWX5-eA7sw38zIPNB_nOMDjlxMv3Y1hkaw
-
----
 
 4- order
 
