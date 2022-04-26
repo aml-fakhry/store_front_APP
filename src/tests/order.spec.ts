@@ -34,7 +34,6 @@ let createOrders: DataResult<orderDTO>[];
 
 beforeAll(async () => {
   createOrders = await Promise.all(orders.map(orderDataAccess.create.bind(orderDataAccess)));
-  console.log(createOrders[0]);
 
   createOrders.forEach((createdOrder, idx) => {
     orders[idx].id = createdOrder.data.id;

@@ -39,30 +39,38 @@ afterAll(async () => {
   await Database.query(`DELETE FROM public.products WHERE id IN ($1, $2, $3);`, [...ids]);
 });
 
-describe('Order Model', () => {
-  it('should have a create order method', async () => {
+describe('Product Model', () => {
+  it('should have a create order method.', async () => {
     expect(productDataAccess.create).toBeDefined();
   });
 
-  it('should have a find order By Id method', async () => {
+  it('should have a find order By Id method.', async () => {
     expect(productDataAccess.findById).toBeDefined();
   });
 
-  it('should have a getAllProducts method', async () => {
+  it('should have a getAllProducts method.', async () => {
     expect(productDataAccess.getAllProducts).toBeDefined();
   });
 
-  it('should have a getProductsByCategoryId method', async () => {
+  it('should have a getProductsByCategoryId method.', async () => {
     expect(productDataAccess.getProductsByCategoryId).toBeDefined();
   });
 
-  it('should have a getTopProducts method', async () => {
+  it('should have a getTopProducts method.', async () => {
     expect(productDataAccess.getTopProducts).toBeDefined();
   });
 
-  it('findById method should return a specific product', async () => {
+  it('findById method should return a specific product.', async () => {
     const result = (await productDataAccess.findById(createProducts[0].data.id ?? 0)).data;
     expect(result).toEqual(createProducts[0].data);
+  });
+
+  it('getAllProducts method to get all products.', async () => {
+    const result = (await productDataAccess.getAllProducts()).data;
+
+    const res1 = result.some((dbProduct) => products.map((product) => dbProduct.id === product.id));
+
+    expect(res1).toBeTrue();
   });
 });
 
