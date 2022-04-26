@@ -1,6 +1,6 @@
 export interface productDTO {
-  id: number;
+  id?: number;
   name: string;
   price: number;
-  category_id: string;
+  category_id: number;
 }

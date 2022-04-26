@@ -1,32 +1,32 @@
-import { userDataAccess } from '../data/user/data/user.data';
-import { Hash } from './../shared/utils/hash.util';
-import { Database } from './../server/server';
-import { QueryResult } from 'pg';
 import supertest from 'supertest';
+
 import { app } from '../app';
+import { userDataAccess } from '../data/user/data/user.data';
+import { Database } from './../server/server';
+import { userDTO } from './../data/user/model/user.dto';
+import { DataResult } from '../shared';
 
 const user = {
-  username: 'aml fakhri 5' /* should username change this after every test. */,
+  username: 'aml fakhri_test',
   firstname: 'aml',
   lastname: 'fakhri',
-  email: 'aml_fakhri5@gmail.com' /* should email change this after every test. */,
+  email: 'aml_fakhri_test@gmail.com',
   password: '223344',
   country: 'egypt',
   phone: '021345457',
-};
+} as userDTO;
 
-const createResult = {
-  data: {
-    id: 5,
-    username: user.username,
-    firstname: user.firstname,
-    lastname: user.lastname,
-    email: user.email,
-    password: /* await Hash.hash(user.password) */ '33333',
-    country: user.country,
-    phone: user.phone,
-  },
-};
+let createUser: DataResult<userDTO>;
+
+beforeAll(async () => {
+  createUser = await userDataAccess.create(user);
+  user.id = createUser.data.id;
+  user.password = createUser.data.password;
+});
+
+afterAll(async () => {
+  await Database.query(`DELETE FROM public.users WHERE id = $1;`, [createUser.data.id]);
+});
 
 describe('User Model', () => {
   it('should have a create method', async () => {
@@ -50,82 +50,8 @@ describe('User Model', () => {
   });
 
   it('findById method should return a specific user', async () => {
-    spyOn(Database, 'query').and.returnValue(
-      Promise.resolve({
-        rows: [
-          {
-            id: 1,
-            username: 'aml fakhri',
-            firstname: 'aml',
-            lastname: 'fakhri',
-            email: 'aml_fakhri@gmail.com',
-            password: '$2b$10$892rG1t4WJEEWjQNYz0fnegUB2ESyj1ZXOcAPS9V1o7GMJqTKQ1yS',
-            country: 'egypt',
-            phone: '021345457',
-          },
-        ],
-      } as QueryResult)
-    );
-    const userResult = (await userDataAccess.findById(1)).data;
-    expect(userResult).toEqual({
-      id: 1,
-      username: 'aml fakhri',
-      firstname: 'aml',
-      lastname: 'fakhri',
-      email: 'aml_fakhri@gmail.com',
-      password: '$2b$10$892rG1t4WJEEWjQNYz0fnegUB2ESyj1ZXOcAPS9V1o7GMJqTKQ1yS',
-      country: 'egypt',
-      phone: '021345457',
-    });
-  });
-
-  it('findByCredentials (login) method should Finds the user with the given `username` and `password`', async () => {
-    const result = (await userDataAccess.findByCredentials('aml fakhri 3', '223344')).data;
-    expect(result).toEqual({
-      id: 4,
-      username: 'aml fakhri 3',
-      firstname: 'aml',
-      lastname: 'fakhri',
-      email: 'aml_fakhri3@gmail.com',
-      password: '$2b$10$YP2VgqFstbkLDwmWVOukDucTR2fvfMWVVQVcEpof69oHRyPdrG97q',
-      country: 'egypt',
-      phone: '021345457',
-    });
-  });
-
-  /**
-   * integration test.
-   */
-  const request = supertest(app);
-  describe('Test user endpoint API', () => {
-    it('Pass when response status equal 200 when get user', async () => {
-      const response = await request
-        .get('/api/user/1')
-        .set(
-          'Authorization',
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-        );
-      expect(response.status).toBe(200);
-    });
-
-    it('Pass when response status equal 200 when login', async () => {
-      const response = await request
-        .post('/api/user/login')
-        .send({
-          username: 'aml fakhri 12',
-          password: '223344',
-        })
-        .set(
-          'Authorization',
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-        ); //set header for this test;
-      expect(response.status).toBe(200);
-    });
-
-    it('Pass when response status equal 401 when login and not authorized', async () => {
-      const response = await request.get('/api/user/0');
-      expect(response.status).toBe(401);
-    });
+    const userResult = (await userDataAccess.findById(createUser.data.id ?? 0)).data;
+    expect(userResult).toEqual(user);
   });
 
   // it('show method should return the correct book', async () => {
@@ -145,4 +71,50 @@ describe('User Model', () => {
 
   //   expect(result).toEqual([]);
   // });
+});
+
+describe('test user model process', () => {
+  it('create (signup) method.', async () => {
+    expect(createUser.data).toEqual(user);
+  });
+
+  it('findByCredentials (login) method should Finds the user with the given `username` and `password`', async () => {
+    const result = (await userDataAccess.findByCredentials(user.username, '223344')).data;
+    expect(result).toEqual(user);
+  });
+});
+
+/**
+ * integration test.
+ */
+const request = supertest(app);
+describe('Test user endpoint API', () => {
+  it('Pass when response status equal 200 when get user', async () => {
+    const response = await request
+      .get(`/api/user/${user.id}`)
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 200 when login', async () => {
+    const response = await request
+      .post('/api/user/login')
+      .send({
+        username: user.username,
+        password: '223344',
+      })
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 401 when login and not authorized', async () => {
+    const response = await request.get('/api/user/0');
+    expect(response.status).toBe(401);
+  });
 });
