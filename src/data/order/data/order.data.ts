@@ -1,6 +1,7 @@
 import { DataResult } from '../../../shared/model/data-result.model';
 import { Database } from '../../../server/server';
 import { orderDTO } from './../model/order.model';
+import { AppError, AppErrorCode } from '../../../shared';
 
 /**
  * the order data-access service it includes all functionalities such create, search, delete and update.
@@ -13,6 +14,38 @@ export class orderDataAccess {
     const result: DataResult<orderDTO> = {} as DataResult<orderDTO>;
 
     try {
+      /**
+       * Fetch data to be validate.
+       */
+      const [dbProduct, dbUser] = await Promise.all([
+        Database.query(`SELECT * FROM products where id = $1;`, [data.product_id]),
+        Database.query(`SELECT * FROM users where id = $1;`, [data.user_id]),
+      ]);
+
+      if (dbProduct.rowCount == 0) {
+        /** Check if product_id is already exists in database. */
+        result.validationErrors = [
+          {
+            code: AppErrorCode.RelatedEntityNotFound,
+            source: 'product_id',
+            title: AppError.RelatedEntityNotFound,
+            detail: `Product not exists in db.`,
+          },
+        ];
+        return result;
+      } else if (dbUser.rowCount == 0) {
+        /** Check if user_id is already exists in database. */
+        result.validationErrors = [
+          {
+            code: AppErrorCode.RelatedEntityNotFound,
+            source: 'user_id',
+            title: AppError.RelatedEntityNotFound,
+            detail: `User not exists in db.`,
+          },
+        ];
+        return result;
+      }
+
       /* Create a new order. */
       const order = (
         await Database.query(

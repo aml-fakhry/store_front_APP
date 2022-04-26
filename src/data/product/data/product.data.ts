@@ -17,7 +17,10 @@ export class productDataAccess {
       /**
        * Fetch data to be validate.
        */
-      const nameExistence = await Database.query(`SELECT name FROM products where name = $1;`, [data.name]);
+      const [nameExistence, dbCategory] = await Promise.all([
+        Database.query(`SELECT name FROM products where name = $1;`, [data.name]),
+        Database.query(`SELECT * FROM categories where id = $1;`, [data.category_id]),
+      ]);
 
       //#region validate
 
@@ -29,6 +32,17 @@ export class productDataAccess {
             source: 'name',
             title: AppError.ValueExists,
             detail: `Product name already exists`,
+          },
+        ];
+        return result;
+      } else if (dbCategory.rowCount == 0) {
+        /** Check if username is already exists in database. */
+        result.validationErrors = [
+          {
+            code: AppErrorCode.RelatedEntityNotFound,
+            source: 'categoryId',
+            title: AppError.RelatedEntityNotFound,
+            detail: `Category not exists in db.`,
           },
         ];
         return result;
