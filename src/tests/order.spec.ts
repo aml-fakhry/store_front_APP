@@ -34,6 +34,7 @@ let createOrders: DataResult<orderDTO>[];
 
 beforeAll(async () => {
   createOrders = await Promise.all(orders.map(orderDataAccess.create.bind(orderDataAccess)));
+  console.log(createOrders[0]);
 
   createOrders.forEach((createdOrder, idx) => {
     orders[idx].id = createdOrder.data.id;
@@ -70,5 +71,25 @@ describe('Order Model', () => {
   it('findById method should return a specific order', async () => {
     const userResult = (await orderDataAccess.findById(createOrders[0].data.id ?? 0)).data;
     expect(userResult).toEqual(createOrders[0].data);
+  });
+
+  it('getOrdersByUserId method to get all orders by specific user id.`', async () => {
+    const result = (await orderDataAccess.getOrdersByUserId(createOrders[0].data.user_id)).data;
+    const res1 = result.some((order) => order.id === orders[0].id);
+    const res2 = result.some((order) => order.id === orders[1].id);
+    expect(res1 && res2).toBeTrue();
+  });
+
+  it('getCompletedOrderByUserId method to get completed orders.', async () => {
+    const result = (await orderDataAccess.getCompletedOrderByUserId(createOrders[0].data.user_id)).data;
+    const data = result.filter((order) => order.user_id === orders[0].user_id);
+    expect(result).toEqual(data);
+  });
+
+  it('getAllOrders method to get all orders.', async () => {
+    const result = (await orderDataAccess.getAllOrders()).data;
+
+    const res1 = result.some((dbOrder) => orders.map((order) => dbOrder.id === order.id));
+    expect(res1).toBeTrue();
   });
 });

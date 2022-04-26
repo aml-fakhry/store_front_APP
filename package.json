@@ -7,7 +7,7 @@
     "dev": "nodemon src/app.ts",
     "start:build": "npm run build && node build/app.js",
     "test": "npm run build && jasmine",
-    "test:db": "ENV=test db-migrate --env test up && jasmine && db-migrate db:drop test",
+    "test:db": "ENV=test db-migrate --env test up && npm run test && db-migrate db:drop test",
     "build": "rm -rf ./build && npx tsc",
     "watch": "tsc-watch --esModuleInterop src/app.ts --ourDir ./build ",
     "lint": "eslint src --fix",
