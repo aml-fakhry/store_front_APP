@@ -1,19 +1,19 @@
 {
   "dev": {
     "driver": "pg",
-    "host": "localhost",
-    "database": "store_front",
-    "user": "postgres",
-    "password": "202111",
+    "host": { "ENV": "PSQL_HOST" },
+    "database": { "ENV": "PSQL_DB" },
+    "user": { "ENV": "PSQL_USER" },
+    "password": { "ENV": "PSQL_PASSWORD" },
     "port": 5433,
     "max": 20
   },
   "test": {
     "driver": "pg",
-    "host": "127.0.0.1",
-    "database": "store_front_test",
-    "user": "postgres",
-    "password": "202111",
+    "host": { "ENV": "PSQL_HOST" },
+    "database": { "ENV": "PSQL_DB_TEST" },
+    "user": { "ENV": "PSQL_USER" },
+    "password": { "ENV": "PSQL_PASSWORD" },
     "port": 5433,
     "max": 20
   }

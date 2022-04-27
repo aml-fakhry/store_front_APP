@@ -73,23 +73,24 @@ describe('User Model', () => {
   // });
 });
 
-describe('test user model process', () => {
+describe('test user model signup and login process.', () => {
   it('create (signup) method.', async () => {
     expect(createUser.data).toEqual(user);
   });
 
-  it('findByCredentials (login) method should Finds the user with the given `username` and `password`', async () => {
+  it('findByCredentials (login) method should Finds the user with the given `username` and `password.`', async () => {
     const result = (await userDataAccess.findByCredentials(user.username, '223344')).data;
     expect(result).toEqual(user);
   });
 });
 
+//#region integration test
 /**
  * integration test.
  */
 const request = supertest(app);
 describe('Test user endpoint API', () => {
-  it('Pass when response status equal 200 when get user', async () => {
+  it('Pass when response status equal 200 when get user.', async () => {
     const response = await request
       .get(`/api/user/${user.id}`)
       .set(
@@ -99,7 +100,7 @@ describe('Test user endpoint API', () => {
     expect(response.status).toBe(200);
   });
 
-  it('Pass when response status equal 200 when login', async () => {
+  it('Pass when response status equal 200 when login.', async () => {
     const response = await request
       .post('/api/user/login')
       .send({
@@ -113,8 +114,9 @@ describe('Test user endpoint API', () => {
     expect(response.status).toBe(200);
   });
 
-  it('Pass when response status equal 401 when login and not authorized', async () => {
+  it('Pass when response status equal 401 when login and not authorized.', async () => {
     const response = await request.get('/api/user/0');
     expect(response.status).toBe(401);
   });
 });
+//#endregion

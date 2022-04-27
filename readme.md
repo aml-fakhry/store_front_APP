@@ -112,7 +112,8 @@ yarn "test:db"
 - ports the backend and database are running on
 
 ```
-http://localhost:3000
+Postgres DB default server runs on
+> 5433
 ```
 
 ## ENV variable
@@ -159,6 +160,8 @@ JWT_LIFE_TIME = "30d"
 
 1- create database script.
 
+- dev database
+
 ```javascript
 
 CREATE DATABASE store_front
@@ -168,6 +171,17 @@ CREATE DATABASE store_front
    LC_CTYPE = 'Arabic_Saudi Arabia.1256'
    TABLESPACE = pg_default CONNECTION
    LIMIT = -1;
+```
+
+- test database
+
+```javascript
+
+
+CREATE DATABASE store_front_test WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'Arabic_Saudi Arabia.1256' LC_CTYPE = 'Arabic_Saudi Arabia.1256' TABLESPACE = pg_default CONNECTION
+LIMIT
+  = -1;
+
 ```
 
 2- create user script.

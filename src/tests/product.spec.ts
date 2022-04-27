@@ -74,12 +74,13 @@ describe('Product Model', () => {
   });
 });
 
+//#region integrations test.
 /**
  * integration test.
  */
 const request = supertest(app);
 describe('Test product endpoint API', () => {
-  it('Pass when response status equal 200 when get all product', async () => {
+  it('Pass when response status equal 200 when get all products.', async () => {
     const response = await request
       .get('/api/product')
       .set(
@@ -89,7 +90,7 @@ describe('Test product endpoint API', () => {
     expect(response.status).toBe(200);
   });
 
-  it('Pass when response status equal 200 when get specific product', async () => {
+  it('Pass when response status equal 200 when get specific product.', async () => {
     const response = await request
       .get(`/api/product/${products[0].id}`)
       .set(
@@ -109,7 +110,7 @@ describe('Test product endpoint API', () => {
     expect(response.status).toBe(200);
   });
 
-  it('Pass when response status equal 200 when get trend/top products', async () => {
+  it('Pass when response status equal 200 when get trend/top products.', async () => {
     const response = await request
       .get('/api/product/top-products')
       .set(
@@ -119,8 +120,9 @@ describe('Test product endpoint API', () => {
     expect(response.status).toBe(200);
   });
 
-  it('Pass when response status equal 401 when login and not authorized', async () => {
+  it('Pass when response status equal 401 when login and not authorized.', async () => {
     const response = await request.get('/api/product/top-products');
     expect(response.status).toBe(401);
   });
 });
+//#endregion

@@ -2,6 +2,8 @@ import { orderDataAccess } from '../data';
 import { Database } from './../server/server';
 import { orderDTO } from './../data/order/model/order.model';
 import { DataResult } from '../shared';
+import supertest from 'supertest';
+import { app } from '../app';
 
 const orders = [
   {
@@ -47,27 +49,27 @@ afterAll(async () => {
 });
 
 describe('Order Model', () => {
-  it('should have a create order method', async () => {
+  it('should have a create order method.', async () => {
     expect(orderDataAccess.create).toBeDefined();
   });
 
-  it('should have a find order By Id method', async () => {
+  it('should have a find order By Id method.', async () => {
     expect(orderDataAccess.findById).toBeDefined();
   });
 
-  it('should have a getAllOrders method', async () => {
+  it('should have a getAllOrders method.', async () => {
     expect(orderDataAccess.getAllOrders).toBeDefined();
   });
 
-  it('should have a getOrdersByUserId method', async () => {
+  it('should have a getOrdersByUserId method.', async () => {
     expect(orderDataAccess.getOrdersByUserId).toBeDefined();
   });
 
-  it('should have a getCompletedOrderByUserId method', async () => {
+  it('should have a getCompletedOrderByUserId method.', async () => {
     expect(orderDataAccess.getCompletedOrderByUserId).toBeDefined();
   });
 
-  it('findById method should return a specific order', async () => {
+  it('findById method should return a specific order.', async () => {
     const userResult = (await orderDataAccess.findById(createOrders[0].data.id ?? 0)).data;
     expect(userResult).toEqual(createOrders[0].data);
   });
@@ -92,3 +94,56 @@ describe('Order Model', () => {
     expect(res1).toBeTrue();
   });
 });
+
+//#region integrations test.
+/**
+ * integration test.
+ */
+const request = supertest(app);
+describe('Test order endpoint API', () => {
+  it('Pass when response status equal 200 when get all orders.', async () => {
+    const response = await request
+      .get('/api/order')
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 200 when get specific order.', async () => {
+    const response = await request
+      .get(`/api/order/${orders[0].id}`)
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 200 when get completed orders.', async () => {
+    const response = await request
+      .get(`/api/order/complete-product/${orders[0].id}`)
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 200 when get orders by product id.', async () => {
+    const response = await request
+      .get(`/api/order/product/${orders[0].product_id}`)
+      .set(
+        'Authorization',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
+      );
+    expect(response.status).toBe(200);
+  });
+
+  it('Pass when response status equal 401 when login and not authorized.', async () => {
+    const response = await request.get(`/api/order/product/${orders[0].id}`);
+    expect(response.status).toBe(401);
+  });
+});
+//#endregion
