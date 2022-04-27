@@ -29,27 +29,27 @@ afterAll(async () => {
 });
 
 describe('User Model', () => {
-  it('should have a create method', async () => {
+  it('should have a create method.', async () => {
     expect(userDataAccess.create).toBeDefined();
   });
 
-  it('should have a findById method', async () => {
+  it('should have a findById method.', async () => {
     expect(userDataAccess.findById).toBeDefined();
   });
 
-  it('should have a findByCredentials method', async () => {
+  it('should have a findByCredentials method.', async () => {
     expect(userDataAccess.findByCredentials).toBeDefined();
   });
 
-  it('should have a createAccessToken method', async () => {
+  it('should have a createAccessToken method.', async () => {
     expect(userDataAccess.createAccessToken).toBeDefined();
   });
 
-  it('should have a findAccessTokenById method', async () => {
+  it('should have a findAccessTokenById method.', async () => {
     expect(userDataAccess.findAccessTokenById).toBeDefined();
   });
 
-  it('findById method should return a specific user', async () => {
+  it('findById method should return a specific user.', async () => {
     const userResult = (await userDataAccess.findById(createUser.data.id ?? 0)).data;
     expect(userResult).toEqual(user);
   });
@@ -73,7 +73,7 @@ describe('User Model', () => {
   // });
 });
 
-describe('test user model signup and login process.', () => {
+describe('test user model signup and login process', () => {
   it('create (signup) method.', async () => {
     expect(createUser.data).toEqual(user);
   });
