@@ -18,6 +18,10 @@ This is a backend API build in Nodejs for an online store. It exposes a RESTful 
 
 The database schema and and API route information can be found in the [REQUIREMENT.md](REQUIREMENTS.md)
 
+## Udacity review about this project
+
+![database_diagram](udacity_review.png)
+
 ## Database diagram
 
 ![database_diagram](ERD_DB.png)
