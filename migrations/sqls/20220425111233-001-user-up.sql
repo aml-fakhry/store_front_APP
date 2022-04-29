@@ -1,4 +1,6 @@
 /* Replace with your SQL commands */
+BEGIN;
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(150) NOT NULL,
@@ -9,3 +11,5 @@ CREATE TABLE users (
   country VARCHAR(150),
   phone VARCHAR(50)
 );
+
+COMMIT;

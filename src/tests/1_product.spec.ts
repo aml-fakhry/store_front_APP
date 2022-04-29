@@ -1,43 +1,55 @@
-import { Database } from './../server/server';
-import { productDataAccess } from './../data/product/data/product.data';
 import supertest from 'supertest';
+
 import { app } from '../app';
-import { productDTO } from './../data/product/model/product.dto';
+import { productDTO } from '../data/product/model/product.dto';
 import { DataResult } from '../shared';
+import { categoryDataAccess } from './../data/category/data/category.data';
+import { Database } from '../server/server';
+import { productDataAccess } from '../data/product/data/product.data';
+import { token } from './2_user.spec';
 
 const products = [
   {
     name: 'product 8',
     price: 30,
-    category_id: 2,
+    category_id: 1,
   },
   {
     name: 'product 9',
     price: 30,
-    category_id: 2,
+    category_id: 1,
   },
   {
     name: 'product 10',
     price: 30,
-    category_id: 3,
+    category_id: 1,
   },
 ] as productDTO[];
 
 let createProducts: DataResult<productDTO>[];
 
 beforeAll(async () => {
-  createProducts = await Promise.all(products.map(productDataAccess.create.bind(productDataAccess)));
+  try {
+    const x = await categoryDataAccess.create({
+      name: 'category 1',
+    });
 
-  createProducts.forEach((createdProduct, idx) => {
-    products[idx].id = createdProduct.data.id;
-  });
+    createProducts = await Promise.all(products.map(productDataAccess.create.bind(productDataAccess)));
+
+    createProducts.forEach((createdProduct, idx) => {
+      products[idx].id = createdProduct.data.id;
+      products[idx].category_id = createdProduct.data.category_id;
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
-afterAll(async () => {
-  const ids = products.map((p) => p.id);
+// afterAll(async () => {
+//   const ids = products.map((p) => p.id);
 
-  await Database.query(`DELETE FROM public.products WHERE id IN ($1, $2, $3);`, [...ids]);
-});
+//   await Database.query(`DELETE FROM public.products WHERE id IN ($1, $2, $3);`, [...ids]);
+// });
 
 describe('Product Model', () => {
   it('should have a create order method.', async () => {
@@ -81,42 +93,23 @@ describe('Product Model', () => {
 const request = supertest(app);
 describe('Test product endpoint API', () => {
   it('Pass when response status equal 200 when get all products.', async () => {
-    const response = await request
-      .get('/api/product')
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+    const response = await request.get('/api/product').set('Authorization', token);
+
     expect(response.status).toBe(200);
   });
 
   it('Pass when response status equal 200 when get specific product.', async () => {
-    const response = await request
-      .get(`/api/product/${products[0].id}`)
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+    const response = await request.get(`/api/product/${products[0].id}`).set('Authorization', token);
     expect(response.status).toBe(200);
   });
 
   it('Pass when response status equal 200 when get products by their categories.', async () => {
-    const response = await request
-      .get(`/api/product/category/${products[0].id}`)
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+    const response = await request.get(`/api/product/category/${products[0].id}`).set('Authorization', token);
     expect(response.status).toBe(200);
   });
 
   it('Pass when response status equal 200 when get trend/top products.', async () => {
-    const response = await request
-      .get('/api/product/top-products')
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+    const response = await request.get('/api/product/top-products').set('Authorization', token);
     expect(response.status).toBe(200);
   });
 

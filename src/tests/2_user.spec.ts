@@ -2,8 +2,8 @@ import supertest from 'supertest';
 
 import { app } from '../app';
 import { userDataAccess } from '../data/user/data/user.data';
-import { Database } from './../server/server';
-import { userDTO } from './../data/user/model/user.dto';
+import { Database } from '../server/server';
+import { userDTO } from '../data/user/model/user.dto';
 import { DataResult } from '../shared';
 
 const user = {
@@ -20,13 +20,14 @@ let createUser: DataResult<userDTO>;
 
 beforeAll(async () => {
   createUser = await userDataAccess.create(user);
+
   user.id = createUser.data.id;
   user.password = createUser.data.password;
 });
 
-afterAll(async () => {
-  await Database.query(`DELETE FROM public.users WHERE id = $1;`, [createUser.data.id]);
-});
+// afterAll(async () => {
+//   await Database.query(`DELETE FROM public.users WHERE id = $1;`, [createUser.data.id]);
+// });
 
 describe('User Model', () => {
   it('should have a create method.', async () => {
@@ -53,24 +54,6 @@ describe('User Model', () => {
     const userResult = (await userDataAccess.findById(createUser.data.id ?? 0)).data;
     expect(userResult).toEqual(user);
   });
-
-  // it('show method should return the correct book', async () => {
-  //   const result = await store.show("1");
-  //   expect(result).toEqual({
-  //     id: "1",
-  //     title: 'Bridge to Terabithia',
-  //     total_pages: 250,
-  //     author: 'Katherine Paterson',
-  //     type: 'Childrens'
-  //   });
-  // });
-
-  // it('delete method should remove the book', async () => {
-  //   store.delete("1");
-  //   const result = await store.index()
-
-  //   expect(result).toEqual([]);
-  // });
 });
 
 describe('test user model signup and login process', () => {
@@ -79,8 +62,9 @@ describe('test user model signup and login process', () => {
   });
 
   it('findByCredentials (login) method should Finds the user with the given `username` and `password.`', async () => {
-    const result = (await userDataAccess.findByCredentials(user.username, '223344')).data;
-    expect(result).toEqual(user);
+    const result = await userDataAccess.findByCredentials(user.username, '223344');
+
+    expect(result.data).toEqual(user);
   });
 });
 
@@ -88,29 +72,22 @@ describe('test user model signup and login process', () => {
 /**
  * integration test.
  */
+export let token: string;
 const request = supertest(app);
 describe('Test user endpoint API', () => {
-  it('Pass when response status equal 200 when get user.', async () => {
-    const response = await request
-      .get(`/api/user/${user.id}`)
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+  it('Pass when response status equal 200 when login.', async () => {
+    const response = await request.post('/api/user/login').send({
+      username: user.username,
+      password: '223344',
+    });
+    const json = JSON.parse(response.text);
+    token = json.data.jwt.token;
+
     expect(response.status).toBe(200);
   });
 
-  it('Pass when response status equal 200 when login.', async () => {
-    const response = await request
-      .post('/api/user/login')
-      .send({
-        username: user.username,
-        password: '223344',
-      })
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+  it('Pass when response status equal 200 when get user.', async () => {
+    const response = await request.get(`/api/user/${user.id}`).set('Authorization', token);
     expect(response.status).toBe(200);
   });
 

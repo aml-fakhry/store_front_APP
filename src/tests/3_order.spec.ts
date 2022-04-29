@@ -1,34 +1,35 @@
 import { orderDataAccess } from '../data';
-import { Database } from './../server/server';
-import { orderDTO } from './../data/order/model/order.model';
+import { Database } from '../server/server';
+import { orderDTO } from '../data/order/model/order.model';
 import { DataResult } from '../shared';
 import supertest from 'supertest';
 import { app } from '../app';
+import { token } from './2_user.spec';
 
 const orders = [
   {
     status: 'active',
     quantity: 3,
-    product_id: 6,
-    user_id: 41,
+    product_id: 1,
+    user_id: 1,
   },
   {
     status: 'active',
     quantity: 3,
     product_id: 2,
-    user_id: 41,
+    user_id: 1,
   },
   {
     status: 'complete',
     quantity: 4,
-    product_id: 6,
-    user_id: 42,
+    product_id: 3,
+    user_id: 1,
   },
   {
     status: 'complete',
     quantity: 3,
-    product_id: 6,
-    user_id: 42,
+    product_id: 2,
+    user_id: 1,
   },
 ] as orderDTO[];
 
@@ -42,11 +43,10 @@ beforeAll(async () => {
   });
 });
 
-afterAll(async () => {
-  const ids = orders.map((p) => p.id);
-
-  await Database.query(`DELETE FROM public.orders WHERE id IN ($1, $2, $3, $4);`, [...ids]);
-});
+// afterAll(async () => {
+//   const ids = orders.map((p) => p.id);
+//   await Database.query(`DELETE FROM public.orders WHERE id IN ($1, $2, $3, $4);`, [...ids]);
+// });
 
 describe('Order Model', () => {
   it('should have a create order method.', async () => {
@@ -76,14 +76,19 @@ describe('Order Model', () => {
 
   it('getOrdersByUserId method to get all orders by specific user id.`', async () => {
     const result = (await orderDataAccess.getOrdersByUserId(createOrders[0].data.user_id)).data;
+
     const res1 = result.some((order) => order.id === orders[0].id);
     const res2 = result.some((order) => order.id === orders[1].id);
-    expect(res1 && res2).toBeTrue();
+    const res3 = result.some((order) => order.id === orders[2].id);
+    const res4 = result.some((order) => order.id === orders[3].id);
+    expect(res1 && res2 && res3 && res4).toBeTrue();
   });
 
   it('getCompletedOrderByUserId method to get completed orders.', async () => {
     const result = (await orderDataAccess.getCompletedOrderByUserId(createOrders[0].data.user_id)).data;
-    const data = result.filter((order) => order.user_id === orders[0].user_id);
+
+    const data = result.filter((order) => order.user_id == orders[0].user_id && order.status === 'complete');
+
     expect(result).toEqual(data);
   });
 
@@ -102,42 +107,22 @@ describe('Order Model', () => {
 const request = supertest(app);
 describe('Test order endpoint API', () => {
   it('Pass when response status equal 200 when get all orders.', async () => {
-    const response = await request
-      .get('/api/order')
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+    const response = await request.get('/api/order').set('Authorization', token);
     expect(response.status).toBe(200);
   });
 
   it('Pass when response status equal 200 when get specific order.', async () => {
-    const response = await request
-      .get(`/api/order/${orders[0].id}`)
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+    const response = await request.get(`/api/order/${orders[0].id}`).set('Authorization', token);
     expect(response.status).toBe(200);
   });
 
   it('Pass when response status equal 200 when get completed orders.', async () => {
-    const response = await request
-      .get(`/api/order/complete-product/${orders[0].id}`)
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+    const response = await request.get(`/api/order/complete-product/${orders[0].id}`).set('Authorization', token);
     expect(response.status).toBe(200);
   });
 
   it('Pass when response status equal 200 when get orders by product id.', async () => {
-    const response = await request
-      .get(`/api/order/product/${orders[0].product_id}`)
-      .set(
-        'Authorization',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2MTIzZjc2LTZkMjMtNGZiMy1iNzc3LWE1M2JkMjRlNzk5MyIsInVzZXJJZCI6MSwiaWF0IjoxNjUwNjY4OTkwLCJleHAiOjE2NTMyNjA5OTB9.gtXBpvgcxqVOlWCati4jQCOSF54RcaptEaavnTGIU8I'
-      );
+    const response = await request.get(`/api/order/product/${orders[0].product_id}`).set('Authorization', token);
     expect(response.status).toBe(200);
   });
 

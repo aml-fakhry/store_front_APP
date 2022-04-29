@@ -1,4 +1,6 @@
 /* Replace with your SQL commands */
+BEGIN;
+
 CREATE TABLE public."orders" (
   id SERIAL PRIMARY KEY,
   quantity integer NOT NULL,
@@ -6,3 +8,5 @@ CREATE TABLE public."orders" (
   product_id bigint REFERENCES products(id),
   user_id bigint REFERENCES users(id)
 );
+
+COMMIT;
