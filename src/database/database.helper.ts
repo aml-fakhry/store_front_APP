@@ -13,27 +13,16 @@ export default class DbService {
     /**
      * just check environment.
      */
-    if (ENV === 'test') {
-      /* Initial clients (pool) to connected to db at test environment.*/
-      this.pool = new Pool({
-        host: PSQL_HOST,
-        database: PSQL_DB_TEST,
-        user: PSQL_USER,
-        password: PSQL_PASSWORD,
-        port: 5433,
-        max: 20,
-      });
-    } else {
-      /* Initial clients (pool) to connected to db at development environment.*/
-      this.pool = new Pool({
-        host: PSQL_HOST,
-        database: PSQL_DB,
-        user: PSQL_USER,
-        password: PSQL_PASSWORD,
-        port: 5433,
-        max: 20,
-      });
-    }
+    console.log({ ENV });
+
+    this.pool = new Pool({
+      host: PSQL_HOST,
+      database: ENV === 'dev' ? PSQL_DB : PSQL_DB_TEST,
+      user: PSQL_USER,
+      password: PSQL_PASSWORD,
+      port: 5433,
+      max: 20,
+    });
   }
 
   /**

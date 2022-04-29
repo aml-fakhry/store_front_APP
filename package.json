@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "start:build": "npm run build && node build/app.js",
-    "test": "ENV=test && db-migrate up --env test && npm run build && jasmine && db-migrate --env test reset",
+    "test": " set ENV=test && db-migrate up --env test && npm run build && jasmine && db-migrate --env test reset",
     "build": "rm -rf ./build && npx tsc",
     "watch": "tsc-watch --esModuleInterop src/app.ts --ourDir ./build ",
     "lint": "eslint src --fix",
