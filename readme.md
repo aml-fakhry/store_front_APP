@@ -143,8 +143,6 @@ JWT_PRIVATE_KEY = "Amoli_fari",
 JWT_LIFE_TIME = "30d"
 ```
 
-![env](env.png)
-
 ## Functionality
 
 ```
